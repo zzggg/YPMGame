@@ -10,6 +10,7 @@ public class SqlManager : MonoBehaviour {
     
     public static SqlManager instance;
 
+    private string path;
     private SqliteConnection conn;
     private SqliteCommand cmd;
     private SqliteDataReader reader;
@@ -17,6 +18,7 @@ public class SqlManager : MonoBehaviour {
     private void Awake()
     {
         instance = this;
+        path = "data source =" + Application.streamingAssetsPath + "/YPMGame.sqlite";
     }
 
     /*
@@ -64,14 +66,24 @@ public class SqlManager : MonoBehaviour {
     }
 
     /*
-     * 执行sql语句
+     * 执行查询sql语句
      */
-    public SqliteDataReader ExecuteSql(string sql)
+    public SqliteDataReader ExecuteSelect(string sql)
     {
         cmd = conn.CreateCommand();
         cmd.CommandText = sql;
         reader = cmd.ExecuteReader();
         return reader;
+    }
+
+    /*
+     * 执行增删改
+     */
+    public void ExecuteI_D_U(string sql)
+    {
+        cmd = conn.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.ExecuteNonQuery();
     }
 
     /*
@@ -97,9 +109,9 @@ public class SqlManager : MonoBehaviour {
             sql += field[len - 1];
         }
         sql += " FROM " + tableName;
-        Debug.Log(sql);
+        //Debug.Log(sql);
 
-        return ExecuteSql(sql);
+        return ExecuteSelect(sql);
     }
 
     /*
@@ -136,15 +148,99 @@ public class SqlManager : MonoBehaviour {
         }
 
         len = cols.Length;
-        sql += " FROM " + tableName + " WHERE " + cols[0] + " "+ op[0] + " '" + values[0]+"'";
-        for(int i = 1; i < len; i++)
+        if(len == 0)
         {
-            sql += " " + connector + " " + cols[i] + " " + op[i] + " '" + values[i] + "'";
+            sql += " FROM " + tableName;
         }
-        Debug.Log(sql);
+        else
+        {
+            sql += " FROM " + tableName + " WHERE " + cols[0] + " " + op[0] + " '" + values[0] + "'";
+            for (int i = 1; i < len; i++)
+            {
+                sql += " " + connector + " " + cols[i] + " " + op[i] + " '" + values[i] + "'";
+            }
+        }
+        
+        //Debug.Log(sql);
 
-        return ExecuteSql(sql);
+        return ExecuteSelect(sql);
     }
 
+    /*
+     * 向表中插入数据
+     * cols 表字段
+     * values 字段对应的值
+     * 
+     * 假设cols与该表字段名一致，未检测不一致错误
+     */
+    public void InsertInto(string tableName,string[] values,string[] cols = null)
+    {
+        string sql = "INSERT INTO " + tableName;
+        if (cols == null)
+        {
+            sql += " ";
+        }else
+        {
+            if (cols.Length != values.Length)
+            {
+                throw new Exception("Length Error!");
+            }
+
+            if(cols.Length == 0)
+            {
+                throw new Exception("INSERT NULL");
+            }
+
+            sql += "(" + cols[0];
+            for(int i = 1; i < cols.Length; i++)
+            {
+                sql += "," + cols[i];
+            }
+            sql += ") ";
+        }
+        sql += "VALUES('" + values[0];
+        for(int i = 1; i < values.Length; i++)
+        {
+            sql += "','" + values[i];
+        }
+        sql += "')";
+
+        //Debug.Log(sql);
+
+        ExecuteI_D_U(sql);
+    }
+
+    /*
+     * 删除表中数据
+     */
+    public void Delete(string tableName,string[] cols,string[] op,string[] values,
+        string connector = Global.AND)
+    {
+        if (cols.Length != op.Length || op.Length != values.Length) throw new Exception("length error!");
+
+        if (cols.Length == 0)
+        {
+            DeleteAllTable(tableName);
+            return;
+        }
+
+        string sql = "DELETE FROM " + tableName + " WHERE " + cols[0] + " " + op[0] + " '" + values[0]+"'";
+        for(int i = 1; i < cols.Length; i++)
+        {
+            sql += " " + connector + " " + cols[i] + " " + op[i] + " '" + values[i]+"'";
+        }
+
+        //Debug.Log(sql);
+
+        ExecuteI_D_U(sql);
+    }
+
+    //删除整个表数据
+    //保留表结构
+    public void DeleteAllTable(string tableName)
+    {
+        string sql = "DELETE FROM " + tableName;
+        ExecuteI_D_U(sql);
+    }
 
 }

@@ -18,22 +18,33 @@ public class SqlTest : MonoBehaviour {
         {
             string table = "User";
 
-            string[] cols = new string[] { "password","number" };
-            string[] op = new string[] { "=","<" };
-            string[] values = new string[] { "123456","10" };
-            string[] field = new string[] {"username"};
+            //string[] cols = new string[] { "password","number" };
+            //string[] op = new string[] { "=","<" };
+            //string[] values = new string[] { "123456","10" };
+            //string[] field = new string[] {"username"};
             //SqliteDataReader reader = SqlManager.instance.SelectWhere(table, cols, op, values,field);
 
             //SqliteDataReader reader = SqlManager.instance.SelectFromTable(table,field);
-            SqliteDataReader reader = SqlManager.instance.SelectFromTable(table);
+            //SqliteDataReader reader = SqlManager.instance.SelectFromTable(table);
+            //string[] val = new string[] { "gpppp"};
+            //string[] col = new string[] { "asda" };
+            
+            //SqlManager.instance.InsertInto(table, val,col);
 
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    Debug.Log(reader.GetValue(i).ToString());
-                }
-            }
+            string t1 = "Test";
+            string[] v1 = new string[] { "1" };
+            string[] c1 = new string[] { "sss" };
+            string[] o1 = new string[] { "="};
+            //SqlManager.instance.Delete(t1, c1, o1, v1);
+            SqlManager.instance.DeleteAllTable(t1);
+
+            //while (reader.Read())
+            //{
+            //    for (int i = 0; i < reader.FieldCount; i++)
+            //    {
+            //        Debug.Log(reader.GetValue(i).ToString());
+            //    }
+            //}
             //SqlManager.instance.CloseDB();
         }
     }
