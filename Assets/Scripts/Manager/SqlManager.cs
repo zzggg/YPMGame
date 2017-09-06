@@ -87,6 +87,27 @@ public class SqlManager : MonoBehaviour {
     }
 
     /*
+     * 创建表
+     */
+    public void CreateTable(string tableName,string[] cols,string[] colTypes)
+    {
+        if (cols.Length != colTypes.Length) throw new Exception("length error!");
+
+        if (cols.Length == 0) throw new Exception("cols is Null");
+
+        string sql = "CREATE TABLE " + tableName + "(" + cols[0] + " " + colTypes[0];
+        for (int i = 1; i < cols.Length; i++)
+        {
+            sql += "," + cols[i] + " " + colTypes[i];
+        }
+        sql += ")";
+
+        Debug.Log(sql);
+
+        ExecuteI_D_U(sql);
+    }
+
+    /*
      * 查询名为tableName的表
      * 返回该表所有数据的field字段的值
      */
@@ -243,4 +264,27 @@ public class SqlManager : MonoBehaviour {
         ExecuteI_D_U(sql);
     }
 
+    /*
+     * 更新数据
+     * cols = 'values'
+     * _key _op _value  更新条件
+     */
+    public void UpdateData(string tableName,string[] cols,string[] values,
+        string _key,string _op,string _value)
+    {
+        if (cols.Length != values.Length) throw new Exception("length error!");
+
+        if (cols.Length == 0) throw new Exception("Don't have new data Update");
+
+        string sql = "UPDATE " + tableName + " SET " + cols[0] + " = '" + values[0] + "'";
+        for(int i = 1; i < cols.Length; i++)
+        {
+            sql += "," + cols[i] + " = '" + values[i] + "'";
+        }
+        sql += " WHERE " + _key + " " + _op + " '" + _value + "'";
+
+        Debug.Log(sql);
+
+        ExecuteI_D_U(sql);
+    }
 }

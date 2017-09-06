@@ -16,11 +16,14 @@ public class SqlTest : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            string table = "User";
+            //string table = "User";
 
-            //string[] cols = new string[] { "password","number" };
+            string[] cols = new string[] { "password","number" };
+            string[] typ = new string[] { "TEXT", "INTEGER" };
+            SqlManager.instance.CreateTable("student", cols, typ);
             //string[] op = new string[] { "=","<" };
             //string[] values = new string[] { "123456","10" };
+            //SqlManager.instance.UpdateData(table, cols, values, "username", "=", "sdsd");
             //string[] field = new string[] {"username"};
             //SqliteDataReader reader = SqlManager.instance.SelectWhere(table, cols, op, values,field);
 
@@ -36,7 +39,7 @@ public class SqlTest : MonoBehaviour {
             string[] c1 = new string[] { "sss" };
             string[] o1 = new string[] { "="};
             //SqlManager.instance.Delete(t1, c1, o1, v1);
-            SqlManager.instance.DeleteAllTable(t1);
+            //SqlManager.instance.DeleteAllTable(t1);
 
             //while (reader.Read())
             //{
