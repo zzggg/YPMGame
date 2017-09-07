@@ -19,7 +19,7 @@ public class CsvLoader {
 
         string[] fileData = FileLoader.LoadFileLines(filePath);
 
-        if(fileData.Length < 3)
+        if(fileData.Length < 2)
         {
             return result;
         }
