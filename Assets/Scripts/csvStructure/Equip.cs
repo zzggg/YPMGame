@@ -6,6 +6,8 @@ public class Equip : Item {
     
     public int prop { get; set; }           //装备类型
     public int propValue { get; set; }      //装备属性值
+    public int level { get; set; }
+    public int intensifyLevel { get; set; }
     public int price { get; set; }
     public string description { get; set; }
 }
