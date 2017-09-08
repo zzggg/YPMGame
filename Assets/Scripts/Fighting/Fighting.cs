@@ -12,4 +12,9 @@ public class Fighting : MonoBehaviour {
     public int Def { get; set; }
     public int Speed { get; set; }
     public int Crit { get; set; }
+
+    /*
+     *技能伤害
+     * 装备强化加成  1 单独算  2 加在Atk上 
+     */
 }
