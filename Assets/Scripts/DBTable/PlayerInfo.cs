@@ -28,4 +28,20 @@ public class PlayerInfo  {
     public int curHP { get; set; }
     public int curMP { get; set; }
     public int Exp { get; set; }
+
+    //数据库数据映射
+    public void init(List<string> list)
+    {
+        playerID = int.Parse(list[0]);
+        level = int.Parse(list[1]);
+        HP = int.Parse(list[2]);
+        MP = int.Parse(list[3]);
+        Atk = int.Parse(list[4]);
+        Def = int.Parse(list[5]);
+        Speed = int.Parse(list[6]);
+        Crit = float.Parse(list[7]);
+        curHP = int.Parse(list[8]);
+        curMP = int.Parse(list[9]);
+        Exp = int.Parse(list[10]);
+    }
 }

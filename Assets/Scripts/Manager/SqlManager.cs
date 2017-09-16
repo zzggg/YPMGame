@@ -19,6 +19,8 @@ public class SqlManager : MonoBehaviour {
     {
         instance = this;
         path = "data source =" + Application.streamingAssetsPath + "/YPMGame.sqlite";
+        SqlManager.instance.OpenDB(path);
+        DontDestroyOnLoad(gameObject);
     }
 
     /*
@@ -63,6 +65,19 @@ public class SqlManager : MonoBehaviour {
         conn = null;
 
         Debug.Log("Close success!");
+    }
+
+    //获得表字段名
+    public List<string> GetTableFieldInfo(string tableName)
+    {
+        string sql = "PRAGMA table_info(" + tableName + ")";
+        SqliteDataReader rd = ExecuteSelect(sql);
+        List<string> list = new List<string>();
+        while (reader.Read())
+        {
+            list.Add(reader.GetValue(1).ToString());
+        }
+        return list;
     }
 
     /*
