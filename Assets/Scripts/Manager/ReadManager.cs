@@ -22,7 +22,7 @@ public class ReadManager {
     /// <summary>
     /// 数据库表数据映射到对象
     /// </summary>
-    /// <param name="dic">数据库表   字段-数据</param>
+    /// <param name="dic">数据库表   字段名-行数据</param>
     public static void TypeChange<T>(T t, Dictionary<string, string> dic)
     {
         PropertyInfo[] props = typeof(T).GetProperties();
